@@ -1,0 +1,23 @@
+include: https://gitlab-templates.ddbuild.io/compute-delivery/v1/compute-delivery.yml
+
+stages:
+- verify
+- release
+- notify
+
+.ci:
+  image: 486234852809.dkr.ecr.us-east-1.amazonaws.com/ci/compute-delivery:latest
+  stage: verify
+  tags: ["runner:main"]
+
+build:
+  extends: .ci
+  script:
+    - GITHUB_TOKEN=$(aws ssm get-parameter --region us-east-1 --name github.user.datadog-compute-robot --with-decryption --query "Parameter.{Value:Value}" --out text)
+    - git config --global url."https://${GITHUB_TOKEN}@github.com/DataDog".insteadOf https://github.com/DataDog
+    - go get github.com/onsi/ginkgo/ginkgo
+    - go get github.com/containernetworking/cni/cnitool
+    - go get golang.org/x/tools/cmd/cover
+    - go get github.com/modocache/gover
+    - go get github.com/mattn/goveralls
+    - ./build_linux.sh
