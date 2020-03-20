@@ -8,6 +8,7 @@ Read [CONTRIBUTING](CONTRIBUTING.md) for build and test instructions.
 ## Plugins supplied:
 ### Main: interface-creating
 * `bridge`: Creates a bridge, adds the host and the container to it.
+* `dummy`: Creates a dummy interface in a container and add IPs to it.
 * `ipvlan`: Adds an [ipvlan](https://www.kernel.org/doc/Documentation/networking/ipvlan.txt) interface in the container.
 * `loopback`: Set the state of loopback interface to up.
 * `macvlan`: Creates a new MAC address, forwards all traffic to that to the container.
